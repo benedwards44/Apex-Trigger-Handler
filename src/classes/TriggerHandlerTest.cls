@@ -1,7 +1,8 @@
 /**
-* @author	   Ben Edwards (ben@edwards.nz)
-* @date		 2016-06-07
-* @description  Test class for the generic TriggerHandler class
+* @author Ben Edwards (ben@edwards.nz)
+* @date	2016-06-07
+* @description Test class for the generic TriggerHandler class
+*
 * CHANGE LOG
 **/
 @isTest
@@ -28,50 +29,56 @@ public class TriggerHandlerTest {
 	@isTest
 	static void testBeforeInsert() {
 		beforeInsertMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('beforeInsert', lastMethodCalled, 'last method should be beforeInsert');
 	}
 
 	@isTest
 	static void testBeforeUpdate() {
 		beforeUpdateMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('beforeUpdate', lastMethodCalled, 'last method should be beforeUpdate');
 	}
 
 	@isTest
 	static void testBeforeDelete() {
 		beforeDeleteMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('beforeDelete', lastMethodCalled, 'last method should be beforeDelete');
 	}
 
 	@isTest
 	static void testAfterInsert() {
 		afterInsertMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('afterInsert', lastMethodCalled, 'last method should be afterInsert');
 	}
 
 	@isTest
 	static void testAfterUpdate() {
 		afterUpdateMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('afterUpdate', lastMethodCalled, 'last method should be afterUpdate');
 	}
 
 	@isTest
 	static void testAfterDelete() {
 		afterDeleteMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('afterDelete', lastMethodCalled, 'last method should be afterDelete');
 	}
 
 	@isTest
 	static void testAfterUndelete() {
 		afterUndeleteMode();
-		handler.execute();
+		handler.execute(true);
 		System.assertEquals('afterUndelete', lastMethodCalled, 'last method should be afterUndelete');
+	}
+
+	@isTest
+	static void testRunOnce() {
+		system.assert(TriggerHandler.runOnce());
+		system.assert(!TriggerHandler.runOnce());
 	}
 
 
