@@ -13,20 +13,20 @@ trigger Account on Account (
 ) {
 
     // Pass immediately to the Handler class for processing
-    new AccountTriggerHandler().execute();
+    new AccountTriggerHandler().execute(Trigger_Manager__c.getInstance().Account__c);
 }
 ```
+
+Note: `Trigger_Manager__c.getInstance().Account__c` refers to a Custom Setting called `Trigger_Manager__c` with a field `Account__c` to manage whether the trigger should be enabled or disabled.
 
 And then `AccountTriggerHandler`:
 ```
 public with sharing class LeadTriggerHandler extends TriggerHandler {
 
-
     public override void beforeInsert() {
 
         doSomeLogic();
     }
-
 
     public override void beforeUpdate() {
 
@@ -34,7 +34,6 @@ public with sharing class LeadTriggerHandler extends TriggerHandler {
     }
 
     ...
-
 
     private void doSomeLogic() {
 
