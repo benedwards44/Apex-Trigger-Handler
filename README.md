@@ -21,23 +21,16 @@ Note: `Trigger_Manager__c.getInstance().Account__c` refers to a Custom Setting c
 
 And then `AccountTriggerHandler`:
 ```
-public with sharing class LeadTriggerHandler extends TriggerHandler {
+public with sharing class AccountTriggerHandler extends TriggerHandler {
 
     public override void beforeInsert() {
 
-        doSomeLogic();
+        AccountsService.doSomeLogic();
     }
 
     public override void beforeUpdate() {
 
-        doSomeLogic();
-    }
-
-    ...
-
-    private void doSomeLogic() {
-
-        ...
+        AccountsService.doSomeOtherLogic();
     }
 
 }
