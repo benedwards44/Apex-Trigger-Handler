@@ -16,8 +16,12 @@ public virtual class TriggerHandler {
     @TestVisible
     private Boolean isTriggerExecuting;
 
-    // Recursion control, to only run update triggers once
-    private static Boolean run = true;
+    // Static Booleans to control recursion
+    public static Boolean beforeInsertHasRun = false;
+    public static Boolean afterInsertHasRun = false;
+    public static Boolean beforeUpdateHasRun = false;
+    public static Boolean afterUpdateHasRun = false;
+
 
     // Constructor
     public TriggerHandler() {
@@ -40,41 +44,45 @@ public virtual class TriggerHandler {
 
             // dispatch to the correct handler method
             if (this.context == TriggerContext.BEFORE_INSERT) {
+
                 this.beforeInsert();
-            } else if (this.context == TriggerContext.BEFORE_UPDATE) {
+
+                // Set boolean to control recursion
+                beforeInsertHasRun = true;
+            } 
+            else if (this.context == TriggerContext.BEFORE_UPDATE) {
+
                 this.beforeUpdate();
-            } else if (this.context == TriggerContext.BEFORE_DELETE) {
+
+                // Set boolean to control recursion
+                afterInsertHasRun = true;
+            }
+            else if (this.context == TriggerContext.BEFORE_DELETE) {
+
                 this.beforeDelete();
-            } else if (this.context == TriggerContext.AFTER_INSERT) {
+
+                // Set boolean to control recursion
+                beforeUpdateHasRun = true;
+            } 
+            else if (this.context == TriggerContext.AFTER_INSERT) {
+
                 this.afterInsert();
-            } else if (this.context == TriggerContext.AFTER_UPDATE) {
+
+                // Set boolean to control recursion
+                afterUpdateHasRun = true;
+            } 
+            else if (this.context == TriggerContext.AFTER_UPDATE) {
+
                 this.afterUpdate();
-            } else if (this.context == TriggerContext.AFTER_DELETE) {
+            } 
+            else if (this.context == TriggerContext.AFTER_DELETE) {
+
                 this.afterDelete();
-            } else if (this.context == TriggerContext.AFTER_UNDELETE) {
+            } 
+            else if (this.context == TriggerContext.AFTER_UNDELETE) {
+
                 this.afterUndelete();
             }
-        }
-    }
-
-    // Recursion control to make sure update triggers run once if updating 
-    // themselves.
-    // eg. if (TriggerHandler.runOnce()) { doLogic() }
-    public static Boolean runOnce () {
-
-        // If run is true (which will be the case when this method is called the first time)
-        if (run) {
-
-            // Set run to false, so next time it won't run again
-            run = false;
-
-            // But return TRUE here, as we still want the trigger to run once.
-            return true;
-        }
-        else {
-
-            // Will return FALSE to stop trigger running again
-            return run;
         }
     }
 

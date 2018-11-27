@@ -25,12 +25,18 @@ public with sharing class LeadTriggerHandler extends TriggerHandler {
 
     public override void beforeInsert() {
 
-        doSomeLogic();
+        if (!TriggerHandler.beforeInsertHasRun) {
+
+            doSomeLogic();
+        }
     }
 
     public override void beforeUpdate() {
 
-        doSomeLogic();
+        if (!TriggerHandler.beforeUpdateHasRun) {
+
+            doSomeLogic();
+        }
     }
 
     ...
